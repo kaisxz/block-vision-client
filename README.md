@@ -1,6 +1,6 @@
 # BlockVision Client
 
-[![Crates.io](https://img.shields.io/crates/v/blockvision-client)](https://crates.io/crates/blockvision-client)
+[![Crates.io](https://img.shields.io/crates/v/block-vision-client)](https://crates.io/crates/block-vision-client)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Rust](https://img.shields.io/badge/rust-2024-edition-orange.svg)](https://www.rust-lang.org/)
 
@@ -22,7 +22,7 @@ Add the following to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-blockvision-client = "0.1.0"
+block-vision-client = "0.1.0"
 ```
 
 ### Feature Flags
@@ -34,10 +34,10 @@ The crate supports feature flags to enable specific blockchain networks:
 
 ```toml
 # Enable only Sui support
-blockvision-client = { version = "0.1.0", default-features = false, features = ["sui"] }
+block-vision-client = { version = "0.1.0", default-features = false, features = ["sui"] }
 
 # Enable only Monad support
-blockvision-client = { version = "0.1.0", default-features = false, features = ["monad"] }
+block-vision-client = { version = "0.1.0", default-features = false, features = ["monad"] }
 ```
 
 ## 🔧 Usage
@@ -45,7 +45,7 @@ blockvision-client = { version = "0.1.0", default-features = false, features = [
 ### Basic Setup
 
 ```rust
-use blockvision_client::sui::prelude::*;
+use block_vision_client::sui::prelude::*;
 use secrecy::SecretString;
 
 #[tokio::main]
@@ -93,7 +93,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 #### Get DEX Pools for a Coin
 
 ```rust
-use blockvision_client::sui::prelude::*;
+use block_vision_client::sui::prelude::*;
 use secrecy::SecretString;
 
 #[tokio::main]
@@ -123,7 +123,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 The client provides comprehensive error handling:
 
 ```rust
-use blockvision_client::{sui::prelude::*, error::ClientError};
+use block_vision_client::{sui::prelude::*, error::ClientError};
 
 #[tokio::main]
 async fn main() -> Result<(), ClientError> {
@@ -260,8 +260,8 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/kaisxz/blockvision-client.git
-   cd blockvision-client
+   git clone https://github.com/kaisxz/block-vision-client.git
+   cd block-vision-client
    ```
 
 2. Install dependencies:
@@ -283,8 +283,8 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 - [BlockVision API Documentation](https://docs.blockvision.org/)
 - [Sui Blockchain](https://sui.io/)
 - [Monad Blockchain](https://monad.xyz/)
-- [Crates.io](https://crates.io/crates/blockvision-client)
-- [GitHub Repository](https://github.com/kaisxz/blockvision-client)
+- [Crates.io](https://crates.io/crates/block-vision-client)
+- [GitHub Repository](https://github.com/kaisxz/block-vision-client)
 
 ## ⚡ Performance
 
