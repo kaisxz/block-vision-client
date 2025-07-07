@@ -4,7 +4,6 @@ use crate::{
         coin_detail::CoinDetailResponse, coin_dex_pools::CoinDexPoolsResponse, ApiResponse
     }},
 };
-use http::StatusCode;
 use reqwest::Client;
 use secrecy::SecretString;
 use url::Url;
