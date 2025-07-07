@@ -1,0 +1,130 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Rust Development Standards
+
+## Code Style & Conventions
+
+### Naming Conventions
+- Use `snake_case` for variables, functions, and modules
+- Use `SCREAMING_SNAKE_CASE` for constants
+- Use `PascalCase` for types, traits, and enums
+- Use `camelCase` for external APIs when needed
+
+### Documentation
+- Add doc comments (`///`) for all public APIs
+- Include usage examples in documentation
+- Document error conditions and edge cases
+- Use `//!` for module-level documentation
+
+### Error Handling
+- Use `Result<T, E>` for fallible operations
+- Implement custom error types with `thiserror`
+- Provide meaningful error messages
+- Use `?` operator for error propagation
+
+### Async/Await Patterns
+- Use `async fn` for I/O operations
+- Prefer `tokio` for async runtime
+- Handle cancellation gracefully
+- Use proper error types for async operations
+
+## Project Structure
+
+### Module Organization
+- Keep modules focused and single-purpose
+- Use `mod.rs` files for module exports
+- Group related functionality together
+- Separate concerns (client, types, websocket)
+
+### Feature Flags
+- Use conditional compilation for optional features
+- Document feature dependencies
+- Provide sensible defaults
+- Allow users to enable only needed functionality
+
+## Testing Standards
+
+### Unit Tests
+- Test all public APIs
+- Mock external dependencies
+- Test error conditions
+- Use descriptive test names
+
+### Integration Tests
+- Test complete workflows
+- Use real API responses when possible
+- Test rate limiting and error handling
+- Verify type safety
+
+## Performance Guidelines
+
+### Memory Management
+- Use references where appropriate
+- Avoid unnecessary allocations
+- Use `Cow` for conditional ownership
+- Prefer `Vec` over `VecDeque` for simple cases
+
+### Async Performance
+- Use connection pooling
+- Implement request caching
+- Handle backpressure properly
+- Use appropriate buffer sizes
+
+## Security Considerations
+
+### API Keys
+- Never log sensitive data
+- Use environment variables for configuration
+- Validate input parameters
+- Handle authentication errors gracefully
+
+### Error Messages
+- Don't expose internal details
+- Provide actionable error messages
+- Log errors appropriately
+- Use structured logging
+
+## Dependencies
+
+### Version Management
+- Use specific version constraints
+- Keep dependencies up-to-date
+- Minimize dependency tree
+- Document why each dependency is needed
+
+### Security
+- Audit dependencies regularly
+- Use `cargo audit` in CI
+- Prefer well-maintained crates
+- Consider security implications
+
+## Code Quality
+
+### Clippy
+- Enable all clippy warnings
+- Fix all warnings before merging
+- Use clippy for code quality checks
+- Consider using `#![deny(warnings)]`
+
+### Formatting
+- Use `rustfmt` for consistent formatting
+- Configure rustfmt in `rustfmt.toml`
+- Format code before committing
+- Use consistent indentation
+
+## Development Workflow
+
+### Git Practices
+- Write descriptive commit messages
+- Use conventional commits format
+- Keep commits focused and atomic
+- Review code before merging
+
+### CI/CD
+- Run tests on all platforms
+- Use clippy in CI
+- Check formatting in CI
+- Publish documentation automatically

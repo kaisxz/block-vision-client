@@ -1,0 +1,201 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# BlockVision Client - API Development Standards
+
+## Project Overview
+This is a Rust client library for BlockVision's Sui Indexing API. The project provides a modular, high-performance client for accessing BlockVision's indexing services for Sui and Monad networks.
+
+## Architecture & Design Principles
+
+### Core Principles
+- **Modular Design**: Separate modules for different networks (Sui, Monad) with feature flags
+- **High Performance**: Async/await patterns, efficient HTTP client usage
+- **Type Safety**: Strong typing with Serde for JSON serialization/deserialization
+- **Error Handling**: Comprehensive error types with thiserror
+- **Scalability**: Extensible design for future API endpoints
+
+### Code Organization
+```
+src/
+├── lib.rs          # Main library entry point with feature gates
+├── error.rs        # Centralized error handling
+├── sui/            # Sui network specific implementations
+│   ├── mod.rs      # Module exports
+│   ├── client.rs   # HTTP client implementation
+│   ├── types.rs    # Sui-specific data structures
+│   └── websocket.rs # WebSocket client (if needed)
+└── monad/          # Monad network specific implementations
+    ├── mod.rs      # Module exports
+    ├── client.rs   # HTTP client implementation
+    ├── types.rs    # Monad-specific data structures
+    └── websocket.rs # WebSocket client (if needed)
+```
+
+## BlockVision Sui Indexing API Context
+
+### Available Endpoints (Pro Members Only)
+Based on the BlockVision documentation, implement these key endpoints:
+
+#### Account APIs
+- Account Activity API
+- Account Coins API  
+- Account NFTs API
+- Account DeFi API
+
+#### Coin APIs
+- Coin Detail API
+- Coin Market Data API
+- Coin Price API (Multiple coins)
+- Coin OHLCV API
+- Coin Trade API
+- Coin Dex Pools API
+- Coin Holders API
+
+#### NFT APIs
+- Collection Detail API
+- Collection Holders API
+- Collection NFT List API
+- NFT Activity API
+
+### API Rate Limits
+- Pro Members: Full access
+- Non-Pro Members: 30 free calls trial
+- API Key can be used for RPC endpoints as well
+
+## Development Guidelines
+
+### 1. Client Implementation Pattern
+```rust
+// Example pattern for new endpoints
+impl SuiClient {
+    pub async fn get_account_activity(&self, address: &str) -> Result<AccountActivityResponse, ClientError> {
+        let url = format!("{}/account/{}/activity", self.base_url, address);
+        let resp = self.http.get(&url).send().await?;
+        let parsed = resp.json::<AccountActivityResponse>().await?;
+        Ok(parsed)
+    }
+}
+```
+
+### 2. Type Definitions Pattern
+```rust
+// Use Serde for JSON serialization
+#[derive(Debug, Serialize, Deserialize)]
+pub struct AccountActivityResponse {
+    pub data: Vec<ActivityItem>,
+    pub pagination: PaginationInfo,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ActivityItem {
+    pub transaction_hash: String,
+    pub timestamp: u64,
+    pub activity_type: String,
+    // Add other relevant fields
+}
+```
+
+### 3. Error Handling Pattern
+```rust
+// Extend error types as needed
+#[derive(Debug, thiserror::Error)]
+pub enum ClientError {
+    #[error("HTTP request failed: {0}")]
+    HttpError(#[from] reqwest::Error),
+    #[error("JSON parsing failed: {0}")]
+    JsonError(#[from] serde_json::Error),
+    #[error("API rate limit exceeded")]
+    RateLimitError,
+    #[error("Authentication failed")]
+    AuthError,
+}
+```
+
+### 4. Feature Flags
+- Use conditional compilation for network-specific code
+- Default features: `["sui", "monad"]`
+- Allow users to enable only needed networks
+
+### 5. Documentation Standards
+- Add comprehensive doc comments for all public APIs
+- Include usage examples in documentation
+- Document rate limits and authentication requirements
+
+### 6. Testing Requirements
+- Unit tests for all client methods
+- Integration tests with mock responses
+- Test error handling scenarios
+
+## Implementation Priorities
+
+### Phase 1: Core Infrastructure
+1. Complete error handling system
+2. Implement base client with authentication
+3. Add rate limiting support
+4. Create basic response types
+
+### Phase 2: Account APIs
+1. Account Activity API
+2. Account Coins API
+3. Account NFTs API
+4. Account DeFi API
+
+### Phase 3: Coin APIs
+1. Coin Detail API
+2. Coin Market Data API
+3. Coin Price API
+4. Coin Holders API
+
+### Phase 4: NFT APIs
+1. Collection Detail API
+2. Collection Holders API
+3. Collection NFT List API
+4. NFT Activity API
+
+## Best Practices
+
+### Performance
+- Use connection pooling with reqwest
+- Implement request caching where appropriate
+- Use async/await for all I/O operations
+- Consider implementing retry logic with exponential backoff
+
+### Security
+- Never log API keys or sensitive data
+- Validate all input parameters
+- Handle authentication errors gracefully
+- Implement proper error messages without exposing internals
+
+### Maintainability
+- Keep modules focused and single-purpose
+- Use consistent naming conventions
+- Add comprehensive logging for debugging
+- Maintain backward compatibility when possible
+
+### Code Quality
+- Follow Rust idioms and conventions
+- Use clippy for code quality checks
+- Write self-documenting code
+- Add meaningful comments for complex logic
+
+## Dependencies Management
+- Keep dependencies minimal and up-to-date
+- Use specific version constraints for stability
+- Document why each dependency is needed
+- Consider security implications of dependencies
+
+## Future Considerations
+- WebSocket support for real-time data
+- Batch request support
+- Caching layer implementation
+- Metrics and monitoring integration
+- SDK examples and tutorials
+
+## Notes for Development
+- BlockVision APIs are Pro Member exclusive (except 30 trial calls)
+- API Key can be used for both Indexing and RPC endpoints
+- Consider implementing a trial mode for development/testing
+- Plan for API versioning and backward compatibility
