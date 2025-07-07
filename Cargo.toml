@@ -7,7 +7,7 @@ license = "Apache-2.0"
 repository = "https://github.com/kaisxz/block-vision-client"
 readme = "README.md"
 authors = ["kaisxz <kaisxz@github.com>"]
-keywords = ["blockchain", "sui", "monad", "api", "client", "block-vision"]
+keywords = ["blockchain", "sui", "monad", "api-client", "block-vision"]
 
 [dependencies]
 reqwest = { version = "0.12.22", features = ["json"] }
