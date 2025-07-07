@@ -52,7 +52,7 @@ use secrecy::SecretString;
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Initialize the client with your API key
     let api_key = SecretString::new("your-api-key-here".to_string());
-    let client = BlockvisionSuiClient::new(api_key);
+    let client = BlockVisionSuiClient::new(api_key);
 
     // Your API calls here...
     Ok(())
@@ -64,13 +64,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 #### Get Coin Details
 
 ```rust
-use blockvision_client::sui::prelude::*;
+use block_vision_client::sui::prelude::*;
 use secrecy::SecretString;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let api_key = SecretString::new("your-api-key-here".to_string());
-    let client = BlockvisionSuiClient::new(api_key);
+    let client = BlockVisionSuiClient::new(api_key);
 
     // Get detailed information about a specific coin
     let coin_type = "0x2::sui::SUI";
@@ -99,7 +99,7 @@ use secrecy::SecretString;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let api_key = SecretString::new("your-api-key-here".to_string());
-    let client = BlockvisionSuiClient::new(api_key);
+    let client = BlockVisionSuiClient::new(api_key);
 
     // Get DEX pools for a specific coin
     let coin_type = "0x2::sui::SUI";
@@ -128,7 +128,7 @@ use block_vision_client::{sui::prelude::*, error::ClientError};
 #[tokio::main]
 async fn main() -> Result<(), ClientError> {
     let api_key = SecretString::new("your-api-key-here".to_string());
-    let client = BlockvisionSuiClient::new(api_key);
+    let client = BlockVisionSuiClient::new(api_key);
 
     match client.get_coin_detail("0x2::sui::SUI").await {
         Ok(Some(coin)) => println!("Found coin: {}", coin.name),
